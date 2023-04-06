@@ -1,38 +1,29 @@
+@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
-# Sets up a web server for deployment of web_static.
 
-apt-get update
-apt-get install -y nginx
+# Script to configure a new clean server, install nginx and restart the server
 
-mkdir -p /data/web_static/releases/test/
-mkdir -p /data/web_static/shared/
-echo "Holberton School" > /data/web_static/releases/test/index.html
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo apt update
+sudo apt install -y nginx
+sudo apt-get update
+sudo apt-get install nginx -y
+sudo mkdir -p /data/web_static/releases/test/
+sudo mkdir -p /data/web_static/shared/
 
-chown -R ubuntu /data/
-chgrp -R ubuntu /data/
+echo "<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Holberton School</title>
+  </head>
+  <body>
+    <h1>Holberton School</h1>
+    Holberton School
+  </body>
+</html>" | sudo tee /data/web_static/releases/test/index.html
 
-printf %s "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    add_header X-Served-By $HOSTNAME;
-    root   /var/www/html;
-    index  index.html index.htm;
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-    location /hbnb_static {
-        alias /data/web_static/current;
-        index index.html index.htm;
-    }
+sudo chown -R ubuntu:ubuntu /data/
 
-    location /redirect_me {
-        return 301 http://cuberule.com/;
-    }
-    
-    error_page 404 /404.html;
-    location /404 {
-      root /var/www/html;
-      internal;
-    }
-}" > /etc/nginx/sites-available/default
-
-service nginx restart
+sudo sed -i '/server_name _;/a \\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
+sudo service nginx restart
