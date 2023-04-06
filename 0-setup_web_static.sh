@@ -1,29 +1,52 @@
-@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
-
-# Script to configure a new clean server, install nginx and restart the server
-
-sudo apt update
-sudo apt install -y nginx
-sudo apt-get update
-sudo apt-get install nginx -y
-sudo mkdir -p /data/web_static/releases/test/
-sudo mkdir -p /data/web_static/shared/
-
+# Setup a web servers for the deployment of web_static.
+apt update -y
+apt install -y nginx
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
 echo "<!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to Holberton School</title>
   </head>
   <body>
-    <h1>Holberton School</h1>
-    Holberton School
+    <p>Nginx server test</p>
   </body>
-</html>" | sudo tee /data/web_static/releases/test/index.html
-
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
-
-sudo chown -R ubuntu:ubuntu /data/
-
-sudo sed -i '/server_name _;/a \\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
+</html>" | tee /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
+chown -R ubuntu:ubuntu /data
+sudo sed -i '39 i\ \tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n' /etc/nginx/sites-enabled/default
+sudo service nginx restar#!/usr/bin/env bash
+# Setup a web servers for the deployment of web_static.
+apt update -y
+apt install -y nginx
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <p>Nginx server test</p>
+  </body>
+</html>" | tee /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
+chown -R ubuntu:ubuntu /data
+sudo sed -i '39 i\ \tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n' /etc/nginx/sites-enabled/default
+sudo service nginx res#!/usr/bin/env bash
+# Setup a web servers for the deployment of web_static.
+apt update -y
+apt install -y nginx
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <p>Nginx server test</p>
+  </body>
+</html>" | tee /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
+chown -R ubuntu:ubuntu /data
+sudo sed -i '39 i\ \tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t}\n' /etc/nginx/sites-enabled/default
 sudo service nginx restart
